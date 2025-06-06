@@ -1,13 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Zerowaste AI Station</title>
+  <title>ZeroWaste AI Station</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      color: white;
+      background-color: #007aff;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-  <h2>เข้าสู่ระบบผ่าน LINE</h2>
-  <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2007537369&redirect_uri=https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html&state=abc123&scope=profile%20openid">
-    <img src="https://scdn.line-apps.com/n/line_login/btn/login_rounded_n.png" width="240" alt="Login with LINE">
-  </a>
+  <div class="container">
+    <h1>ZeroWaste AI Station</h1>
+    <p>เข้าสู่ระบบด้วยบัญชี LINE ของคุณ</p>
+    <a class="button" href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2007537369&redirect_uri=https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html&state=abc123&scope=profile%20openid">Login with LINE</a>
+  </div>
 </body>
 </html>
