@@ -1,115 +1,52 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Register ZeroWaste AI Station</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #e9f2fb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .container {
-      background: #fff;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 400px;
-    }
-    h2 {
-      text-align: center;
-      color: #007aff;
-      margin-bottom: 20px;
-    }
-    label {
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #007aff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #response {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    .powered {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 13px;
-      color: #777;
-    }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Register ZeroWaste AI Station</h2>
-    <form id="register-form">
-      <label>User ID:</label>
-      <input type="text" id="userId" name="userId" readonly>
+  <h2>ลงทะเบียน ZeroWaste AI Station</h2>
+  <form id="register-form">
+    <label>User ID:</label><br>
+    <input type="text" id="userId" name="userId" readonly><br><br>
 
-      <label>First Name:</label>
-      <input type="text" id="firstName" name="firstName" required>
+    <label>ชื่อ:</label><br>
+    <input type="text" id="firstName" name="firstName" required><br><br>
 
-      <label>Last Name:</label>
-      <input type="text" id="lastName" name="lastName" required>
+    <label>นามสกุล:</label><br>
+    <input type="text" id="lastName" name="lastName" required><br><br>
 
-      <label>Student ID:</label>
-      <input type="text" id="studentId" name="studentId" required>
+    <label>รหัสนักเรียน:</label><br>
+    <input type="text" id="studentId" name="studentId" required><br><br>
 
-      <label>Phone Number:</label>
-      <input type="text" id="phoneNumber" name="phoneNumber" required>
+    <label>เบอร์โทร:</label><br>
+    <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
 
-      <button type="submit">Submit</button>
-    </form>
-    <p id="response"></p>
-    <div class="powered">Powered by ZeroWaste AI Station</div>
-  </div>
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+
+  <p id="response"></p>
 
   <script>
-    // ดึงค่าจาก sessionStorage ที่ถูกส่งมาจาก callback.html
-    window.onload = function () {
-      document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
-    };
+    document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
 
-    // ส่งข้อมูลไปยัง Google Apps Script
     document.getElementById("register-form").addEventListener("submit", function(event) {
       event.preventDefault();
       const formData = new FormData(event.target);
       const params = new URLSearchParams();
-      for (const pair of formData.entries()) {
-        params.append(pair[0], pair[1]);
+
+      for (const [key, value] of formData.entries()) {
+        params.append(key, value);
       }
 
-      fetch("https://script.google.com/macros/s/AKfycbwcaUufiBL_os_x5qNPaqzOa6HUeIdi_G1qcgoxVqfUrk7BwuJP3KoDZX1nWPxRZq6qTg/exec", {
-        method: "POST",
-        body: params
-      })
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("response").innerText = "✔ ลงทะเบียนสำเร็จ!";
-      })
-      .catch(err => {
-        document.getElementById("response").innerText = "❌ เกิดข้อผิดพลาดในการส่งข้อมูล";
-      });
+      fetch("https://script.google.com/macros/s/AKfycbwcaUufiBL_os_x5qNPaqzOa6HUeIdi_G1qcgoxVqfUrk7BwuJP3KoDZX1nWPxRZq6qTg/exec?" + params.toString())
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("response").innerText = data.message || "ส่งข้อมูลสำเร็จ!";
+        })
+        .catch(error => {
+          document.getElementById("response").innerText = "เกิดข้อผิดพลาดในการส่งข้อมูล";
+        });
     });
   </script>
 </body>
