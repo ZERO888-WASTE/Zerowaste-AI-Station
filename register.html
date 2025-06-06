@@ -48,5 +48,9 @@
       });
     });
   </script>
+  window.onload = function () {
+  document.getElementById("name").value = sessionStorage.getItem("displayName") || "";
+  document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
+};
 </body>
 </html>
