@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title>กำลังตรวจสอบข้อมูล...</title>
 </head>
 <body>
-  <h3>กำลังตรวจสอบข้อมูล...</h3>
+  <h3 id="status">กำลังตรวจสอบข้อมูล...</h3>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
+
+    if (!code) {
+      document.getElementById("status").innerText = "❌ ไม่พบ code จาก LINE Login";
+      throw new Error("Missing code");
+    }
 
     fetch("https://api.line.me/oauth2/v2.1/token", {
       method: "POST",
@@ -26,6 +31,8 @@
     })
     .then(res => res.json())
     .then(data => {
+      if (!data.access_token) throw new Error("ไม่พบ access_token");
+
       return fetch("https://api.line.me/v2/profile", {
         method: "GET",
         headers: {
@@ -35,16 +42,13 @@
     })
     .then(res => res.json())
     .then(profile => {
-      // เก็บข้อมูลไว้ใช้ใน register.html
       sessionStorage.setItem("displayName", profile.displayName);
       sessionStorage.setItem("userId", profile.userId);
-
-      // ไปหน้า register ต่อเลย
       window.location.href = "register.html";
     })
     .catch(err => {
       console.error("เกิดข้อผิดพลาด:", err);
-      document.body.innerHTML = "<h3>เกิดข้อผิดพลาดในการเชื่อมต่อ LINE</h3>";
+      document.getElementById("status").innerText = "❌ เกิดข้อผิดพลาดในการเชื่อมต่อ LINE: " + err.message;
     });
   </script>
 </body>
