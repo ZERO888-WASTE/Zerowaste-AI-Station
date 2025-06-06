@@ -1,84 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Register ZeroWaste AI Station</title>
+  <meta charset="UTF-8">
+  <title>Zerowaste AI Station - Login</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #e0f3ff;
+      background: #e0f7ff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
-    .container {
+    .box {
       background: white;
       padding: 30px;
       border-radius: 12px;
+      text-align: center;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 320px;
+    }
+    img {
+      width: 220px;
+      cursor: pointer;
     }
     h2 {
-      text-align: center;
-      color: #007BFF;
       margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      margin-top: 5px;
-      border-radius: 6px;
-    }
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 10px;
-      background: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    small {
-      display: block;
-      margin-top: 10px;
-      color: #888;
-      text-align: center;
+      color: #007BFF;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Register ZeroWaste AI Station</h2>
-    <form>
-      <label>User ID:</label>
-      <input type="text" value="U8b82c383f2..." readonly>
-
-      <label>First Name:</label>
-      <input type="text" placeholder="Enter your first name">
-
-      <label>Last Name:</label>
-      <input type="text" placeholder="Enter your last name">
-
-      <label>Student ID:</label>
-      <input type="text" placeholder="Enter your student ID">
-
-      <label>Phone Number:</label>
-      <input type="text" placeholder="Enter your phone number">
-
-      <button type="submit">Submit</button>
-      <small>Powered by Smart EcoChange</small>
-    </form>
+  <div class="box">
+    <h2>Login with LINE</h2>
+    <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2007504415&redirect_uri=https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html&state=abc123&scope=profile%20openid">
+      <img src="https://scdn.line-apps.com/n/line_login/btn_login_base.png" alt="Login with LINE">
+    </a>
   </div>
 </body>
 </html>
