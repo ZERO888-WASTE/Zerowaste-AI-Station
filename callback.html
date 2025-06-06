@@ -6,47 +6,42 @@
 </head>
 <body>
   <h3>กำลังตรวจสอบข้อมูล...</h3>
-
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+    const code = urlParams.get('code');
 
-    if (!code) {
-      document.body.innerHTML = "<h3>ไม่พบโค้ดจาก LINE</h3>";
-    } else {
-      fetch("https://api.line.me/oauth2/v2.1/token", {
-        method: "POST",
+    fetch("https://api.line.me/oauth2/v2.1/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: "https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html",
+        client_id: "2007537369",
+        client_secret: "7b8eee0861878fe3ec5016e3ab96913f"
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      return fetch("https://api.line.me/v2/profile", {
+        method: "GET",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: new URLSearchParams({
-          grant_type: "authorization_code",
-          code: code,
-          redirect_uri: "https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html",  // ต้องตรงเป๊ะกับที่ตั้งใน LINE Dev
-          client_id: "2007537369",
-          client_secret: "7b8eee0881678fe3ec501d63ab96913f"
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        return fetch("https://api.line.me/v2/profile", {
-          method: "GET",
-          headers: {
-            "Authorization": Bearer ${data.access_token}
-          }
-        });
-      })
-      .then(res => res.json())
-      .then(profile => {
-        sessionStorage.setItem("displayName", profile.displayName);
-        sessionStorage.setItem("userId", profile.userId);
-        window.location.href = "register.html";
-      })
-      .catch(err => {
-        console.error("เกิดข้อผิดพลาด: ", err);
-        document.body.innerHTML = "<h3>เกิดข้อผิดพลาดในการเชื่อมต่อ LINE</h3>";
+          "Authorization": Bearer ${data.access_token}
+        }
       });
-    }
+    })
+    .then(res => res.json())
+    .then(profile => {
+      sessionStorage.setItem("userId", profile.userId);
+      sessionStorage.setItem("displayName", profile.displayName);
+      window.location.href = "register.html";
+    })
+    .catch(err => {
+      console.error("เกิดข้อผิดพลาด:", err);
+      document.body.innerHTML = "<h3>เกิดข้อผิดพลาดในการเชื่อมต่อ LINE</h3>";
+    });
   </script>
 </body>
 </html>
