@@ -16,39 +16,46 @@
     <label for="studentId">รหัสนักเรียน:</label><br>
     <input type="text" id="studentId" name="studentId" required><br><br>
 
+    <label for="phoneNumber">เบอร์โทรศัพท์:</label><br>
+    <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+
     <button type="submit">ส่งข้อมูล</button>
   </form>
 
   <p id="response"></p>
 
   <script>
-    window.onload = function () {
-      // ดึงข้อมูลจาก sessionStorage
-      document.getElementById("displayName").value = sessionStorage.getItem("displayName") || "";
-      document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
-    };
+    // โหลดข้อมูลจาก sessionStorage ที่มาจาก callback.html
+    document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
+    document.getElementById("displayName").value = sessionStorage.getItem("displayName") || "";
 
     document.getElementById("register-form").addEventListener("submit", function(event) {
       event.preventDefault();
 
-      const formData = new FormData(event.target);
-      const params = new URLSearchParams();
-      for (const pair of formData.entries()) {
-        params.append(pair[0], pair[1]);
-      }
+      const userId = document.getElementById("userId").value;
+      const displayName = document.getElementById("displayName").value;
+      const studentId = document.getElementById("studentId").value;
+      const phoneNumber = document.getElementById("phoneNumber").value;
 
-      fetch("https://script.google.com/macros/s/AKfycbwcaUufiBL_os_x5qNPaqzOa6HUeIdi_G1qcgoxVqfUrk7BwuJP3KoDZX1nWPxRZq6qTg/exec", {
-        method: "POST",
-        body: params
-      })
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("response").innerText = "✅ ส่งข้อมูลสำเร็จแล้ว!";
-      })
-      .catch(error => {
-        console.error("เกิดข้อผิดพลาด:", error);
-        document.getElementById("response").innerText = "❌ เกิดข้อผิดพลาดในการส่งข้อมูล";
-      });
+      const [firstName, ...rest] = displayName.split(" ");
+      const lastName = rest.join(" ");
+
+      const query = new URLSearchParams({
+        firstName: firstName,
+        lastName: lastName,
+        studentId: studentId,
+        phoneNumber: phoneNumber,
+        userId: userId
+      }).toString();
+
+      fetch("https://script.google.com/macros/s/AKfycbwcaUufiBL_os_x5qNPaqzOa6HUeIdi_G1qcgoxVqfUrk7BwuJP3KoDZX1nWPxRZq6qTg/exec?" + query)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("response").innerText = data.message;
+        })
+        .catch(error => {
+          document.getElementById("response").innerText = "เกิดข้อผิดพลาดในการส่งข้อมูล";
+        });
     });
   </script>
 </body>
