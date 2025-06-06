@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Callback - Zerowaste AI Station</title>
+</head>
+<body>
+  <h2>กำลังตรวจสอบข้อมูลผู้ใช้...</h2>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (code) {
+      fetch('https://api.line.me/oauth2/v2.1/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code: code,
+          redirect_uri: 'https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html',
+          client_id: '2007537369',
+          client_secret: '7b8eee0881678fe3ec501d63ab96913f'
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const id_token = data.id_token;
+        const payload = JSON.parse(atob(id_token.split('.')[1]));
+        const displayName = payload.name;
+        const userId = payload.sub;
+
+        document.body.innerHTML = `<h2>ยินดีต้อนรับ ${displayName}</h2><p>USER ID: ${userId}</p>`;
+
+        // ✅ ส่งข้อมูลไป Google Sheets
+        fetch('https://script.google.com/macros/s/AKfycbyntinM34yaRhuOP-FHjBSZ5cTiEyjrC1rW1Fn2NoB5Ky4mkoFQARm3X3Uv565jIGs8rQ/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: displayName, userId: userId })
+        });
+      });
+    } else {
+      document.body.innerHTML = '<p>ไม่สามารถรับข้อมูลจาก LINE ได้</p>';
+    }
+  </script>
+</body>
+</html>
