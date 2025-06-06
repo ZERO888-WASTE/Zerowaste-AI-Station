@@ -1,43 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>กำลังตรวจสอบข้อมูล...</title>
-</head>
-<body>
-  <h3>กำลังตรวจสอบข้อมูล...</h3>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const code = urlParams.get('code');
 
-    fetch("https://api.line.me/oauth2/v2.1/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        grant_type: "authorization_code",
-        code: code,
-        redirect_uri: "https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html",
-        client_id: "2007537369",
-        client_secret: "7b8eee086187f8e3ec5016e3ab96913f"
-      })
-    })
-    .then(res => res.json())
-    .then(token => {
-      return fetch("https://api.line.me/v2/profile", {
-        method: "GET",
-        headers: { Authorization: Bearer ${token.access_token} }
-      });
-    })
-    .then(res => res.json())
-    .then(profile => {
-      sessionStorage.setItem("userId", profile.userId);
-      sessionStorage.setItem("displayName", profile.displayName);
-      window.location.href = "register.html";
-    })
-    .catch(err => {
-      document.body.innerHTML = "<h3>เกิดข้อผิดพลาด กรุณาลองใหม่</h3>";
-      console.error(err);
-    });
-  </script>
-</body>
-</html>
+if (!code) {
+  document.body.innerHTML = "<h3>ไม่ได้รับ code จาก LINE</h3>";
+  throw new Error("Missing code");
+}
+
+fetch("https://api.line.me/oauth2/v2.1/token", {
+  method: "POST",
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  body: new URLSearchParams({
+    grant_type: "authorization_code",
+    code: code,
+    redirect_uri: "https://zero888-waste.github.io/Zerowaste-AI-Station/callback.html",
+    client_id: "2007537369",
+    client_secret: "7b8eee086187f8e3ec5016e3ab96913f"
+  })
+})
+.then(res => {
+  if (!res.ok) throw new Error("Token exchange failed");
+  return res.json();
+})
+.then(token => {
+  return fetch("https://api.line.me/v2/profile", {
+    method: "GET",
+    headers: { Authorization: Bearer ${token.access_token} }
+  });
+})
+.then(res => {
+  if (!res.ok) throw new Error("Profile fetch failed");
+  return res.json();
+})
+.then(profile => {
+  sessionStorage.setItem("userId", profile.userId);
+  sessionStorage.setItem("displayName", profile.displayName);
+  window.location.href = "register.html";
+})
+.catch(err => {
+  console.error(err);
+  document.body.innerHTML = "<h3>❌ เกิดข้อผิดพลาด: " + err.message + "</h3>";
+});
+</script>
