@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>แสดงข้อมูลจากชีต</title>
+</head>
+<body>
+  <h2>ข้อมูลจาก Google Sheet</h2>
+  <div id="output">กำลังโหลดข้อมูล...</div>
+
+  <script>
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/1ED_1dSHW__BMGuC07JQ5bbVWjOUDMkP1SF3uWfx0J68/edit?gid=0#gid=0';
+    
+    fetch(sheetUrl)
+      .then(res => res.text())
+      .then(data => {
+        const rows = data.split('\n').map(r => r.split(','));
+        let html = '<ul>';
+        rows.forEach(row => {
+          html += `<li>${row.join(' | ')}</li>`;
+        });
+        html += '</ul>';
+        document.getElementById('output').innerHTML = html;
+      });
+  </script>
+</body>
+</html>
