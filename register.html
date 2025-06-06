@@ -22,9 +22,11 @@
   <p id="response"></p>
 
   <script>
-    // ดึงค่าจาก sessionStorage ที่ถูกเก็บไว้ใน callback.html
-    document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
-    document.getElementById("displayName").value = sessionStorage.getItem("displayName") || "";
+    window.onload = function () {
+      // ดึงข้อมูลจาก sessionStorage
+      document.getElementById("displayName").value = sessionStorage.getItem("displayName") || "";
+      document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
+    };
 
     document.getElementById("register-form").addEventListener("submit", function(event) {
       event.preventDefault();
@@ -41,16 +43,13 @@
       })
       .then(response => response.text())
       .then(data => {
-        document.getElementById("response").innerText = "ส่งข้อมูลสำเร็จแล้ว";
+        document.getElementById("response").innerText = "✅ ส่งข้อมูลสำเร็จแล้ว!";
       })
       .catch(error => {
-        document.getElementById("response").innerText = "เกิดข้อผิดพลาดในการส่งข้อมูล";
+        console.error("เกิดข้อผิดพลาด:", error);
+        document.getElementById("response").innerText = "❌ เกิดข้อผิดพลาดในการส่งข้อมูล";
       });
     });
   </script>
-  window.onload = function () {
-  document.getElementById("name").value = sessionStorage.getItem("displayName") || "";
-  document.getElementById("userId").value = sessionStorage.getItem("userId") || "";
-};
 </body>
 </html>
