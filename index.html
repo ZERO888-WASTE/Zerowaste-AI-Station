@@ -1,27 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>แสดงข้อมูลจากชีต</title>
+  <meta charset="UTF-8" />
+  <title>Register ZeroWaste AI Station</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e0f3ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+    h2 {
+      text-align: center;
+      color: #007BFF;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    small {
+      display: block;
+      margin-top: 10px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <h2>ข้อมูลจาก Google Sheet</h2>
-  <div id="output">กำลังโหลดข้อมูล...</div>
+  <div class="container">
+    <h2>Register ZeroWaste AI Station</h2>
+    <form>
+      <label>User ID:</label>
+      <input type="text" value="U8b82c383f2..." readonly>
 
-  <script>
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/1ED_1dSHW__BMGuC07JQ5bbVWjOUDMkP1SF3uWfx0J68/edit?gid=0#gid=0';
-    
-    fetch(sheetUrl)
-      .then(res => res.text())
-      .then(data => {
-        const rows = data.split('\n').map(r => r.split(','));
-        let html = '<ul>';
-        rows.forEach(row => {
-          html += `<li>${row.join(' | ')}</li>`;
-        });
-        html += '</ul>';
-        document.getElementById('output').innerHTML = html;
-      });
-  </script>
+      <label>First Name:</label>
+      <input type="text" placeholder="Enter your first name">
+
+      <label>Last Name:</label>
+      <input type="text" placeholder="Enter your last name">
+
+      <label>Student ID:</label>
+      <input type="text" placeholder="Enter your student ID">
+
+      <label>Phone Number:</label>
+      <input type="text" placeholder="Enter your phone number">
+
+      <button type="submit">Submit</button>
+      <small>Powered by Smart EcoChange</small>
+    </form>
+  </div>
 </body>
 </html>
