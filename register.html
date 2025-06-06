@@ -8,15 +8,21 @@
   <h2>ลงทะเบียน Zerowaste AI Station</h2>
   <form action="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec" method="POST">
     <label for="userid">User ID:</label><br>
-    <input type="text" id="userid" name="userid" value="USER_ID" readonly><br><br>
+    <input type="text" id="userid" name="userid" readonly><br><br>
 
     <label for="displayname">ชื่อผู้ใช้ (Display Name):</label><br>
-    <input type="text" id="displayname" name="displayname" value="DISPLAY_NAME" readonly><br><br>
+    <input type="text" id="displayname" name="displayname" readonly><br><br>
 
     <label for="studentid">รหัสนักเรียน:</label><br>
     <input type="text" id="studentid" name="studentid" placeholder="กรอกรหัสนักเรียน" required><br><br>
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="ส่งข้อมูล">
   </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('userid').value = params.get('userId');
+    document.getElementById('displayname').value = params.get('displayName');
+  </script>
 </body>
 </html>
