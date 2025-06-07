@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Zerowaste AI Station</title>
+    <title>Register Smart Ecochange</title>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <style>
         body {
-            background-color: #e9f5ff; /* Light blue background */
+            background-color: #f5f5f5;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -16,89 +16,65 @@
             margin: 0;
             padding: 20px;
         }
-
         .container {
             background-color: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 450px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 400px;
             width: 100%;
             text-align: center;
-            border-top: 5px solid #007bff; /* Blue top border */
         }
-
         h1 {
-            margin-bottom: 30px;
-            color: #007bff; /* Blue color for header */
-            font-size: 28px;
-            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
         }
-
         label {
             display: block;
-            margin: 12px 0 5px;
+            margin: 10px 0 5px;
             text-align: left;
-            color: #555;
+            color: #666;
             font-weight: 500;
         }
-
         input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
+            padding: 10px;
+            margin-bottom: 15px;
             border-radius: 6px;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             font-size: 16px;
             box-sizing: border-box;
-            transition: border-color 0.3s;
         }
-
-        input:focus {
-            border-color: #007bff; /* Blue border on focus */
-            outline: none;
-        }
-
         input[readonly] {
-            background-color: #f5f5f5;
+            background-color: #e9ecef;
         }
-
         button {
-            background-color: #007bff;
+            background-color: #007BFF;
             color: white;
             border: none;
-            padding: 14px 22px;
+            padding: 12px 20px;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            width: 100%;
         }
-
         button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
-
         .footer {
-            margin-top: 25px;
-            font-size: 14px;
-            color: #777;
-        }
-
-        /* Responsive design for mobile */
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Register Zerowaste AI Station</h1>
+        <h1>Register Smart EcoChange </h1>
         <form id="userForm">
             <label for="userId">User ID:</label>
-            <input type="text" id="userId" name="userId" readonly placeholder="Loading..." value="xxxxx">
+            <input type="text" id="userId" name="userId" readonly placeholder="Loading..." value="">
             
             <label for="firstName">First Name:</label>
             <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name" value="">
@@ -114,7 +90,7 @@
             
             <button type="button" onclick="sendData()">Submit</button>
         </form>
-        <div class="footer">Powered by Zerowaste AI Station</div>
+        <div class="footer">Powered by Smart EcoChange</div>
     </div>
 
     <script>
@@ -129,7 +105,7 @@
                             .then(profile => {
                                 userId = profile.userId;
                                 document.getElementById("userId").value = userId;
-                                console.log("userId from LINE: ", userId);
+                                console.log("userId จาก LINE: ", userId);
                             })
                             .catch(err => {
                                 console.error("Error getting profile:", err);
@@ -148,7 +124,7 @@
         // Send data function
         function sendData() {
             if (!userId) {
-                alert("User ID not received from LINE. Please try again.");
+                alert("ยังไม่ได้รับ userId จาก LINE. โปรดลองอีกครั้ง.");
                 return;
             }
 
@@ -179,16 +155,16 @@
                 console.log("Response:", data);
                 if (data.status === "success") {
                     alert("Registration successful");
-                    liff.closeWindow(); // Close LIFF after successful registration
+                    liff.closeWindow(); // ปิด LIFF หลังจากลงทะเบียนสำเร็จ
                 } else {
-                    alert("Registration successful.");
-                    liff.closeWindow(); // Close LIFF after registration failure
+                    alert("Error");
+                    liff.closeWindow(); // ปิด LIFF หลังจากลงทะเบียนสำเร็จ
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
-                alert("successful.");
-                liff.closeWindow(); // Close LIFF after error
+                alert("Error in sending data.");
+                liff.closeWindow(); // ปิด LIFF หลังจากลงทะเบียนสำเร็จ
             });
         }
 
