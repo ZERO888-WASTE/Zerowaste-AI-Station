@@ -1,140 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>ลงทะเบียน ZeroWaste AI Station</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-  <style>
-    body {
-      background-color: #e6f2ff;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      padding: 10px;
-    }
-    .container {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      padding: 30px;
-      max-width: 400px;
-      width: 100%;
-    }
-    h2 {
-      text-align: center;
-      color: #0066cc;
-      margin-bottom: 20px;
-    }
-    label {
-      font-weight: 500;
-      margin: 8px 0 4px;
-      display: block;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      margin-bottom: 12px;
-    }
-    input[readonly] {
-      background-color: #f5f5f5;
-    }
-    button {
-      width: 100%;
-      background-color: #0066cc;
-      color: #fff;
-      padding: 12px;
-      font-size: 18px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #004c99;
-    }
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      margin-top: 20px;
-      color: #888;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>ลงทะเบียน ZeroWaste AI Station</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <style>
+        body {
+            background-color: #e6f7ff;
+            font-family: 'Prompt', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 2em;
+            border-radius: 16px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            color: #006699;
+            margin-bottom: 1em;
+        }
+        input, button {
+            width: 100%;
+            padding: 0.8em;
+            margin-top: 0.5em;
+            margin-bottom: 1em;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #005f99;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>ลงทะเบียน ZeroWaste AI Station</h2>
-    <form id="form">
-      <label>User ID:</label>
-      <input type="text" id="userId" readonly placeholder="กำลังโหลด...">
-      <label>ชื่อ:</label>
-      <input type="text" id="firstName" required>
-      <label>นามสกุล:</label>
-      <input type="text" id="lastName" required>
-      <label>รหัสนักเรียน:</label>
-      <input type="text" id="studentId" required>
-      <label>เบอร์โทร:</label>
-      <input type="tel" id="phoneNumber" required>
-      <button type="button" onclick="submitForm()">ส่งข้อมูล</button>
-    </form>
-    <div class="footer">Powered by ZeroWaste AI Station</div>
-  </div>
+    <div class="container">
+        <h2>ลงทะเบียน ZeroWaste AI Station</h2>
+        <form id="registerForm">
+            <label>User ID:</label>
+            <input type="text" id="userId" readonly placeholder="กำลังโหลด...">
+            <label>ชื่อ:</label>
+            <input type="text" id="firstName" required>
+            <label>นามสกุล:</label>
+            <input type="text" id="lastName" required>
+            <label>รหัสนักเรียน:</label>
+            <input type="text" id="studentId" required>
+            <label>เบอร์โทร:</label>
+            <input type="text" id="phoneNumber" required>
+            <button type="submit">ส่งข้อมูล</button>
+        </form>
+    </div>
 
-  <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbyAELsWSmfF0MxMI-rVfSPQIYhmhoJTHfvrDLpd5ud27W_Gml_de4ycRczwSurNvw/exec";
-    const LIFF_ID = "2007537369-X7G8gkoJ";
+    <script>
+        let userId = "";
 
-    async function initializeLiff() {
-      await liff.init({ liffId: LIFF_ID });
-      if (!liff.isLoggedIn()) {
-        liff.login();
-      } else {
-        const profile = await liff.getProfile();
-        document.getElementById("userId").value = profile.userId;
-      }
-    }
+        async function initializeLiff() {
+            await liff.init({ liffId: "2007537369-X7G8gkoJ" });
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            } else {
+                const profile = await liff.getProfile();
+                userId = profile.userId;
+                document.getElementById("userId").value = userId;
+            }
+        }
 
-    function submitForm() {
-      const userId = document.getElementById("userId").value;
-      const firstName = document.getElementById("firstName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const studentId = document.getElementById("studentId").value.trim();
-      const phoneNumber = document.getElementById("phoneNumber").value.trim();
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const data = {
+                userId: userId,
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                studentId: document.getElementById("studentId").value,
+                phoneNumber: document.getElementById("phoneNumber").value
+            };
 
-      if (!userId || !firstName || !lastName || !studentId || !phoneNumber) {
-        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-        return;
-      }
-
-      const params = new URLSearchParams({
-        userId, firstName, lastName, studentId, phoneNumber
-      });
-
-      fetch(`${GAS_URL}?${params}`, { method: "GET" })
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === "success") {
-            alert("ลงทะเบียนสำเร็จ");
-          } else if (data.status === "exist user") {
-            alert("มีการลงทะเบียนไว้แล้ว");
-          } else {
-            alert("เกิดข้อผิดพลาด: " + data.message);
-          }
-          liff.closeWindow();
-        })
-        .catch(err => {
-          console.error(err);
-          alert("ไม่สามารถส่งข้อมูลได้");
-          liff.closeWindow();
+            const query = new URLSearchParams(data).toString();
+            fetch("https://script.google.com/macros/s/AKfycbyAELsWSmfF0MxMI-rVfSPQIYhmhoJTHfvrDLpd5ud27W_Gml_de4ycRczwSurNvw/exec?" + query)
+                .then(res => res.json())
+                .then(result => {
+                    alert(result.message || "ส่งข้อมูลสำเร็จ");
+                    liff.closeWindow();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+                });
         });
-    }
 
-    document.addEventListener("DOMContentLoaded", initializeLiff);
-  </script>
+        initializeLiff();
+    </script>
 </body>
 </html>
